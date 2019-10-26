@@ -1,35 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Vue starter</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
     <div id="shopping-list">
-        <h3>{{header.toLocaleUpperCase() }}</h3>
-        <input type="text" v-model="newItem" placeholder="add new Item">
-        <ul>
-          <li v-for="item in items">{{item}}</li>
-        </ul>
+      <div class="header">
+          <h1>{{header.toLocaleUpperCase() }}</h3>
+            <button class="btn btn-primary">Add item</button>
+            <button class="btn btn-cancel">cancel</button>
+      </div>     
+      <div v-if="state === 'edit'" class="add-item-form">
+        <!-- the v-on can replaced with @ -->
+        <!-- Badaa bin bada boom...lol -->
+        <input type="text" v-model="newItem" placeholder="add new Item"
+        @keyup.enter="saveItem" />
+        <button class="btn btn-primary" @click="saveItem">
+     <!-- <button class="btn btn-primary" @click="items.push(newItem)"> -->
+          Save Item
+        </button>
+      </div>
+
+      <ul>
+        <li v-for="item in items">{{item}}</li>
+      </ul>
+      <p v-if="items.length===0">Nice Job! you bought all the items.</p>
     </div>
- 
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
       var shoppingList = new Vue({
-        el: '#shopping-list',
-        data : {
-          header : 'Shopping List App',
-          items :[
-            '1 cup of garri',
-            '10 bags of rice',
-            '5 tubers of yam'
+        el: "#shopping-list",
+        data: {
+          state:'default', //it hides the form
+          header: "Shopping List App",
+          newItem: " ",
+          items: [
+            // "1 cup of garri", "10 bags of rice", "5 tubers of yam"
           ]
+        },
+        methods: {
+          saveItem : function(){
+            this.items.push(this.newItem);
+            this.newItem = ' '; //to remove the text from the input
+          }
         }
-        
-      })
+      });
     </script>
   </body>
 </html>
